@@ -347,7 +347,7 @@ namespace Microsoft.Teams.Apps.Celebration
                 users.Add(user);
             }
 
-            return Json(holidays);
+            return Json(holidays, JsonRequestBehavior.AllowGet);
         }
     }
 }
