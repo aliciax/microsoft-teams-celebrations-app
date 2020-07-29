@@ -825,6 +825,9 @@
     <Content Include="Content\fontawesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fontawesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fontawesome\fonts\FontAwesome.otf" />
+    <Content Include="Views\Tabs\Calendar.cshtml" />
+    <None Include="Properties\PublishProfiles\celebrations-ery7hz6egmkfm - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\celebrations-mgvsmavlchh6g - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

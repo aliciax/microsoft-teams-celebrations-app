@@ -1,0 +1,51 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.5",
+    "version": "{version}",
+    "id": "5c0b8ee0-d445-409b-9c19-ab9edc07a314",
+    "packageName": "com.microsoft.teams.celebrations",
+    "developer": {
+        "name": "Hacking!",
+        "websiteUrl": "{baseUrl0}",
+        "privacyUrl": "{baseUrl0}",
+        "termsOfUseUrl": "{baseUrl0}"
+    },
+    "name": {
+        "short": "{appname}",
+        "full": "{fullappname}"
+    },
+    "description": {
+        "short": "Celebrate birthdays, anniversaries and other events with your team",
+        "full": "Celebrations helps members celebrate each others' birthdays, anniversaries, and other recurring events"
+    },
+    "icons": {
+        "outline": "outline.png",
+        "color": "color.png"
+    },
+    "accentColor": "#64A2CC",
+    "staticTabs": [
+        {
+            "contentUrl": "{baseUrl0}",
+            "entityId": "EventsTab",
+            "name": "Events",
+            "scopes": [
+                "personal"
+            ]
+        }
+    ],
+    "bots": [
+        {
+            "botId": "{botId0}",
+            "isNotificationOnly": false,
+            "scopes": [
+                "team",
+                "personal"
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": []
+}

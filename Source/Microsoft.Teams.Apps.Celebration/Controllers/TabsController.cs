@@ -63,6 +63,18 @@ namespace Microsoft.Teams.Apps.Celebration
         /// <summary>
         /// Returns view for events tab
         /// </summary>
+        /// <returns>Calander View</returns>
+        [Route("Calendar")]
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Calendar()
+        {
+            return this.View();
+        }
+
+        /// <summary>
+        /// Returns view for events tab
+        /// </summary>
         /// <returns>Events View</returns>
         [Route("EventsData")]
         [HttpPost]
