@@ -432,7 +432,8 @@ namespace Microsoft.Teams.Apps.Celebration.Helpers
         public async Task<IEnumerable<CelebrationEvent>> GetEventByDate(DateTime date)
         {
             await this.EnsureInitializedAsync();
-            var documentQuery = this.documentClient.CreateDocumentQuery<CelebrationEvent>(this.eventsCollection.SelfLink)
+            var options = new FeedOptions { EnableCrossPartitionQuery = true };
+            var documentQuery = this.documentClient.CreateDocumentQuery<CelebrationEvent>(this.eventsCollection.SelfLink, options)
                 .Where(x => x.Date == date)
                 .AsDocumentQuery();
             return await documentQuery.ToListAsync();
@@ -444,7 +445,8 @@ namespace Microsoft.Teams.Apps.Celebration.Helpers
             await this.EnsureInitializedAsync();
             foreach (var holiday in holidays)
             {
-                var documentQuery = await this.documentClient.CreateDocumentQuery<CelebrationEvent>(this.eventsCollection.SelfLink)
+                var options = new FeedOptions { EnableCrossPartitionQuery = true };
+                var documentQuery = await this.documentClient.CreateDocumentQuery<CelebrationEvent>(this.eventsCollection.SelfLink, options)
                     .Where(x => x.Title == holiday)
                     .AsDocumentQuery().ToListAsync();
                 foreach (var doc in documentQuery)
