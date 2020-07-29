@@ -332,21 +332,22 @@ namespace Microsoft.Teams.Apps.Celebration
         [HttpGet]
         public async Task<ActionResult> GetByDate(DateTime date)
         {
-            //List<string> holidays = new List<string>();
-            //List<User> users = new List<User>();
-            //var document = await this.eventDataProvider.GetEventByDate(date);
-            //foreach (var doc in document)
-            //{
-            //    holidays.Add(doc.Title);
-            //}
+            List<string> holidays = new List<string>();
+            List<User> users = new List<User>();
+            var document = await this.eventDataProvider.GetEventByDate(date);
+            foreach (var doc in document)
+            {
+                holidays.Add(doc.Title);
+            }
 
-            //var userIds = await this.eventDataProvider.GetUsersByHolidays(holidays);
-            //foreach (var userId in userIds)
-            //{
-            //    var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userId);
-            //    users.Add(user);
-            //}
-            return Content(date.ToLongTimeString());
+            var userIds = await this.eventDataProvider.GetUsersByHolidays(holidays);
+            foreach (var userId in userIds)
+            {
+                var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userId);
+                users.Add(user);
+            }
+
+            return Json(holidays);
         }
     }
 }
