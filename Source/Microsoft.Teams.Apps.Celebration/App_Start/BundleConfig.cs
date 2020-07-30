@@ -33,6 +33,10 @@ namespace Microsoft.Teams.Apps.Celebration
                 "~/lib/bootstrap-multiselect/js/bootstrap-multiselect.js"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
                 "~/Scripts/bootstrap-datepicker.js"));
+            bundles.Add(new ScriptBundle("~/bundles/main").Include(
+                "~/Scripts/2.71a41881.chunk.js"));
+            bundles.Add(new ScriptBundle("~/bundles/main2").Include(
+                "~/Scripts/main.464a73bf.chunk.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/momentjs").Include(
                 "~/lib/moment.js/moment.js"));
@@ -45,6 +49,7 @@ namespace Microsoft.Teams.Apps.Celebration
                 "~/Content/css/styles.css",
                 "~/Content/css/tabStyles.css",
                 "~/Content/css/button-themes.css",
+                "~/Content/css/main.44bb0a3e.chunk.css",
                 "~/Content/css/spinner.css"));
 
             bundles.Add(new StyleBundle("~/bundles/bootstrap3-css").Include(
