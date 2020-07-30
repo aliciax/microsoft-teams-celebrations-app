@@ -25,6 +25,7 @@ namespace Microsoft.Teams.Apps.Celebration
     /// <summary>
     /// Represents the tab action methods.
     /// </summary>
+    [Authorize]
     public class TabsController : Controller
     {
         /// <summary>
