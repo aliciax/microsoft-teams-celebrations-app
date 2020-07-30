@@ -2,10 +2,15 @@
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
-using Newtonsoft.Json;
-
 namespace Microsoft.Teams.Apps.Celebration
 {
+    using Microsoft.Teams.Apps.Celebration.Helpers;
+    using Microsoft.Teams.Apps.Celebration.Models;
+    using Microsoft.Teams.Apps.Celebration.Resources;
+    using Microsoft.Teams.Apps.Common.Configuration;
+    using Microsoft.Teams.Apps.Common.Extensions;
+    using Microsoft.Teams.Apps.Common.Logging;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,32 +18,40 @@ namespace Microsoft.Teams.Apps.Celebration
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
-    using Microsoft.Teams.Apps.Celebration.Helpers;
-    using Microsoft.Teams.Apps.Celebration.Models;
-    using Microsoft.Teams.Apps.Celebration.Resources;
-    using Microsoft.Teams.Apps.Common.Configuration;
-    using Microsoft.Teams.Apps.Common.Extensions;
-    using Microsoft.Teams.Apps.Common.Logging;
     using TimeZoneConverter;
 
     /// <summary>
-    /// Represents the tab action methods
+    /// Represents the tab action methods.
     /// </summary>
-    //[Authorize]
     public class TabsController : Controller
     {
+        /// <summary>
+        /// Defines the eventDataProvider.
+        /// </summary>
         private readonly IEventDataProvider eventDataProvider;
+
+        /// <summary>
+        /// Defines the userManagementHelper.
+        /// </summary>
         private readonly IUserManagementHelper userManagementHelper;
+
+        /// <summary>
+        /// Defines the configProvider.
+        /// </summary>
         private readonly IConfigProvider configProvider;
+
+        /// <summary>
+        /// Defines the logProvider.
+        /// </summary>
         private readonly ILogProvider logProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabsController"/> class.
         /// </summary>
-        /// <param name="eventHelper">Event data provider instance</param>
-        /// <param name="userManagementHelper">UserManagementHelper instance</param>
-        /// <param name="configProvider">Configuration provider instance</param>
-        /// <param name="logProvider">ILogProvider</param>
+        /// <param name="eventHelper">Event data provider instance.</param>
+        /// <param name="userManagementHelper">UserManagementHelper instance.</param>
+        /// <param name="configProvider">Configuration provider instance.</param>
+        /// <param name="logProvider">ILogProvider.</param>
         public TabsController(IEventDataProvider eventHelper, IUserManagementHelper userManagementHelper, IConfigProvider configProvider, ILogProvider logProvider)
         {
             this.eventDataProvider = eventHelper;
@@ -48,9 +61,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns view for events tab
+        /// Returns view for events tab.
         /// </summary>
-        /// <returns>Events View</returns>
+        /// <returns>Events View.</returns>
         [Route("Events")]
         [HttpGet]
         public ActionResult Events()
@@ -63,9 +76,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns view for events tab
+        /// Returns view for events tab.
         /// </summary>
-        /// <returns>Calander View</returns>
+        /// <returns>Calander View.</returns>
         [Route("Calendar")]
         [HttpGet]
         [AllowAnonymous]
@@ -75,9 +88,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns view for events tab
+        /// Returns view for events tab.
         /// </summary>
-        /// <returns>Events View</returns>
+        /// <returns>Events View.</returns>
         [Route("EventsData")]
         [HttpPost]
         public async Task<ActionResult> EventsData()
@@ -94,9 +107,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Get and return TotalEvent count of user
+        /// Get and return TotalEvent count of user.
         /// </summary>
-        /// <returns>Event count</returns>
+        /// <returns>Event count.</returns>
         [HttpGet]
         public async Task<ActionResult> GetTotalEventCountOfUser()
         {
@@ -109,11 +122,11 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns empty view for ManageEvent task module
+        /// Returns empty view for ManageEvent task module.
         /// </summary>
-        /// <param name="eventId">EventId</param>
-        /// <param name="clientTimeZone">Client's machine timeZone id</param>
-        /// <returns>Manage event task module view</returns>
+        /// <param name="eventId">EventId.</param>
+        /// <param name="clientTimeZone">Client's machine timeZone id.</param>
+        /// <returns>Manage event task module view.</returns>
         [Route("ManageEvent")]
         [HttpGet]
         public ActionResult ManageEvent(string eventId, string clientTimeZone)
@@ -130,7 +143,7 @@ namespace Microsoft.Teams.Apps.Celebration
         /// <summary>
         /// Returns the tour view.
         /// </summary>
-        /// <returns>Tour View</returns>
+        /// <returns>Tour View.</returns>
         [Route("Tour")]
         [HttpGet]
         [AllowAnonymous]
@@ -140,11 +153,11 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns view for ManageEvent task module
+        /// Returns view for ManageEvent task module.
         /// </summary>
-        /// <param name="eventId">EventId</param>
-        /// <param name="clientTimeZone">Client's machine timeZone id</param>
-        /// <returns>A <see cref="Task{TResult}"/> Representing the result of the asynchronous operation</returns>
+        /// <param name="eventId">EventId.</param>
+        /// <param name="clientTimeZone">Client's machine timeZone id.</param>
+        /// <returns>A <see cref="Task{TResult}"/> Representing the result of the asynchronous operation.</returns>
         [Route("ManageEventData")]
         [HttpPost]
         public async Task<ActionResult> ManageEventData(string eventId, string clientTimeZone)
@@ -178,9 +191,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Save celebration event
+        /// Save celebration event.
         /// </summary>
-        /// <param name="celebrationEvent">CelebrationEvent object</param>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
         /// <returns>Events View.</returns>
         [Route("SaveEvent")]
         [HttpPost]
@@ -204,9 +217,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Update celebration event
+        /// Update celebration event.
         /// </summary>
-        /// <param name="celebrationEvent">CelebrationEvent object</param>
+        /// <param name="celebrationEvent">CelebrationEvent object.</param>
         /// <returns>Events View.</returns>
         [Route("UpdateEvent")]
         [HttpPost]
@@ -248,9 +261,9 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Delete event
+        /// Delete event.
         /// </summary>
-        /// <param name="eventId">Event Id</param>
+        /// <param name="eventId">Event Id.</param>
         /// <returns>Task.</returns>
         [Route("DeleteEvent")]
         [HttpPost]
@@ -280,10 +293,10 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Check if the event with the given ID exists for the user
+        /// Check if the event with the given ID exists for the user.
         /// </summary>
-        /// <param name="eventId">Event id</param>
-        /// <returns>A <see cref="Task"/>Representing the asynchronous operation</returns>
+        /// <param name="eventId">Event id.</param>
+        /// <returns>A <see cref="Task"/>Representing the asynchronous operation.</returns>
         [HttpGet]
         public async Task<ActionResult> CheckIfEventExists(string eventId)
         {
@@ -301,10 +314,10 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         /// <summary>
-        /// Returns Team details where bot and users both are in
+        /// Returns Team details where bot and users both are in.
         /// </summary>
-        /// <param name="userObjectId">AadObjectId of user</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        /// <param name="userObjectId">AadObjectId of user.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task<IList<Team>> GetTeamDetailsWhereBothBotAndUsersAreInAsync(string userObjectId)
         {
             IList<Team> teamDetails;
@@ -325,36 +338,55 @@ namespace Microsoft.Teams.Apps.Celebration
         }
 
         // Get events owned by the given user
+        /// <summary>
+        /// The GetEventsByOwnerObjectIdAsync.
+        /// </summary>
+        /// <param name="userObjectId">The userObjectId<see cref="string"/>.</param>
+        /// <returns>The <see cref="Task{IList{CelebrationEvent}}"/>.</returns>
         private async Task<IList<CelebrationEvent>> GetEventsByOwnerObjectIdAsync(string userObjectId)
         {
             return await this.eventDataProvider.GetEventsByOwnerObjectIdAsync(userObjectId);
         }
 
+        /// <summary>
+        /// The GetByDate.
+        /// </summary>
+        /// <param name="date">The date<see cref="DateTime"/>.</param>
+        /// <returns>The <see cref="Task{ActionResult}"/>.</returns>
         [Route("GetByDate")]
         [HttpGet]
         public async Task<ActionResult> GetByDate(DateTime date)
         {
-            List<string> holidays = new List<string>();
+            List<CelebrationEvent> holidays = new List<CelebrationEvent>();
+            List<string> holidaysNames = new List<string>();
+
             List<string> users = new List<string>();
             var document = await this.eventDataProvider.GetEventByDate(date);
             foreach (var doc in document)
             {
-                holidays.Add(doc.Title);
+                holidays.Add(doc);
+                holidaysNames.Add(doc.Title);
             }
 
-            var userIds = await this.eventDataProvider.GetUsersByHolidays(holidays);
+            var userIds = await this.eventDataProvider.GetUsersByHolidays(holidaysNames);
             foreach (var userId in userIds)
             {
                 var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userId);
                 users.Add(user.DisplayName);
             }
 
+            JsonConvert.SerializeObject(holidays);
             //return Json(
             //    JsonConvert.SerializeObject(new[]
             //    {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users),
             //    }), JsonRequestBehavior.AllowGet);
-            return Json(new[] {holidays, users}, JsonRequestBehavior.AllowGet);
+            JsonConvert.SerializeObject(holidays);
+            JsonConvert.SerializeObject(users);
 
+            return Json(
+                new[] { JsonConvert.SerializeObject(holidays),
+                    JsonConvert.SerializeObject(users),
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
