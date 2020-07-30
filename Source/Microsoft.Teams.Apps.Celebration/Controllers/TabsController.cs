@@ -335,7 +335,7 @@ namespace Microsoft.Teams.Apps.Celebration
         public async Task<ActionResult> GetByDate(DateTime date)
         {
             List<string> holidays = new List<string>();
-            List<User> users = new List<User>();
+            List<string> users = new List<string>();
             var document = await this.eventDataProvider.GetEventByDate(date);
             foreach (var doc in document)
             {
@@ -346,7 +346,7 @@ namespace Microsoft.Teams.Apps.Celebration
             foreach (var userId in userIds)
             {
                 var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userId);
-                users.Add(user);
+                users.Add(user.DisplayName);
             }
 
             //return Json(
