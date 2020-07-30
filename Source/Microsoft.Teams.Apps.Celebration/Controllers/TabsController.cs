@@ -353,7 +353,7 @@ namespace Microsoft.Teams.Apps.Celebration
             //    JsonConvert.SerializeObject(new[]
             //    {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users),
             //    }), JsonRequestBehavior.AllowGet);
-            return Json(userIds, JsonRequestBehavior.AllowGet);
+            return Json(users, JsonRequestBehavior.AllowGet);
 
         }
     }
