@@ -349,10 +349,11 @@ namespace Microsoft.Teams.Apps.Celebration
                 users.Add(user);
             }
 
-            return Json(
-                JsonConvert.SerializeObject(new[]
-                {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users),
-                }), JsonRequestBehavior.AllowGet);
+            //return Json(
+            //    JsonConvert.SerializeObject(new[]
+            //    {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users),
+            //    }), JsonRequestBehavior.AllowGet);
+            return Json(userIds, JsonRequestBehavior.AllowGet);
 
         }
     }
