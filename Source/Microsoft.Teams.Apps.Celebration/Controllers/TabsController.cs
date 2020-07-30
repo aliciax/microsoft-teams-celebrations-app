@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
+using Newtonsoft.Json.Linq;
+
 namespace Microsoft.Teams.Apps.Celebration
 {
     using Microsoft.Teams.Apps.Celebration.Helpers;
@@ -52,7 +54,8 @@ namespace Microsoft.Teams.Apps.Celebration
         /// <param name="userManagementHelper">UserManagementHelper instance.</param>
         /// <param name="configProvider">Configuration provider instance.</param>
         /// <param name="logProvider">ILogProvider.</param>
-        public TabsController(IEventDataProvider eventHelper, IUserManagementHelper userManagementHelper, IConfigProvider configProvider, ILogProvider logProvider)
+        public TabsController(IEventDataProvider eventHelper, IUserManagementHelper userManagementHelper,
+            IConfigProvider configProvider, ILogProvider logProvider)
         {
             this.eventDataProvider = eventHelper;
             this.userManagementHelper = userManagementHelper;
@@ -70,7 +73,8 @@ namespace Microsoft.Teams.Apps.Celebration
         {
             var viewModel = new EventsTabViewModel
             {
-                MaxUserEventsCount = Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
+                MaxUserEventsCount =
+                    Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
             };
             return this.View(viewModel);
         }
@@ -101,7 +105,8 @@ namespace Microsoft.Teams.Apps.Celebration
             var viewModel = new EventsTabViewModel
             {
                 Events = await this.GetEventsByOwnerObjectIdAsync(userObjectId),
-                MaxUserEventsCount = Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
+                MaxUserEventsCount =
+                    Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
             };
             return this.PartialView(viewModel);
         }
@@ -183,8 +188,10 @@ namespace Microsoft.Teams.Apps.Celebration
 
             if (!string.IsNullOrWhiteSpace(eventId))
             {
-                manageEventModel.CelebrationEvent = await this.eventDataProvider.GetEventByIdAsync(eventId, userObjectId);
-                manageEventModel.SelectedTimeZoneId = manageEventModel.CelebrationEvent?.TimeZoneId ?? manageEventModel.SelectedTimeZoneId;
+                manageEventModel.CelebrationEvent =
+                    await this.eventDataProvider.GetEventByIdAsync(eventId, userObjectId);
+                manageEventModel.SelectedTimeZoneId =
+                    manageEventModel.CelebrationEvent?.TimeZoneId ?? manageEventModel.SelectedTimeZoneId;
             }
 
             return this.PartialView(manageEventModel);
@@ -211,7 +218,8 @@ namespace Microsoft.Teams.Apps.Celebration
             var viewModel = new EventsTabViewModel
             {
                 Events = await this.GetEventsByOwnerObjectIdAsync(userObjectId),
-                MaxUserEventsCount = Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
+                MaxUserEventsCount =
+                    Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
             };
             return this.PartialView("EventsData", viewModel);
         }
@@ -238,7 +246,8 @@ namespace Microsoft.Teams.Apps.Celebration
                     await this.eventDataProvider.UpdateEventAsync(celebrationEvent);
 
                     // If event date or timezone is changed then delete record from Occurrences and EventMessages collections
-                    if (fetchedEvent.Date != celebrationEvent.Date || fetchedEvent.TimeZoneId != celebrationEvent.TimeZoneId)
+                    if (fetchedEvent.Date != celebrationEvent.Date ||
+                        fetchedEvent.TimeZoneId != celebrationEvent.TimeZoneId)
                     {
                         await this.eventDataProvider.DeleteEventOccurrencesByEventIdAsync(celebrationEvent.Id);
                         await this.eventDataProvider.DeleteEventMessagesByEventIdAsync(celebrationEvent.Id);
@@ -255,7 +264,8 @@ namespace Microsoft.Teams.Apps.Celebration
             var viewModel = new EventsTabViewModel
             {
                 Events = await this.GetEventsByOwnerObjectIdAsync(userObjectId),
-                MaxUserEventsCount = Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
+                MaxUserEventsCount =
+                    Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
             };
             return this.PartialView("EventsData", viewModel);
         }
@@ -287,7 +297,8 @@ namespace Microsoft.Teams.Apps.Celebration
             var viewModel = new EventsTabViewModel
             {
                 Events = await this.GetEventsByOwnerObjectIdAsync(userObjectId),
-                MaxUserEventsCount = Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
+                MaxUserEventsCount =
+                    Convert.ToInt32(this.configProvider.GetSetting(ApplicationConfig.MaxUserEventsCount)),
             };
             return this.PartialView("EventsData", viewModel);
         }
@@ -324,13 +335,18 @@ namespace Microsoft.Teams.Apps.Celebration
             try
             {
                 var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userObjectId);
-                var userTeamMembership = await this.userManagementHelper.GetUserTeamMembershipByTeamsIdAsync(user.TeamsId);
-                teamDetails = await this.userManagementHelper.GetTeamsDetailsByTeamIdsAsync(userTeamMembership.Select(x => x.TeamId).ToList());
+                var userTeamMembership =
+                    await this.userManagementHelper.GetUserTeamMembershipByTeamsIdAsync(user.TeamsId);
+                teamDetails =
+                    await this.userManagementHelper.GetTeamsDetailsByTeamIdsAsync(userTeamMembership
+                        .Select(x => x.TeamId).ToList());
                 teamDetails = teamDetails.OrderBy(x => x.Name).ToList();
             }
             catch (Exception ex)
             {
-                this.logProvider.LogError("Failed to get Team details from method GetTeamDetailsWhereBothBotAndUsersAreIn. error:" + ex.ToString());
+                this.logProvider.LogError(
+                    "Failed to get Team details from method GetTeamDetailsWhereBothBotAndUsersAreIn. error:" +
+                    ex.ToString());
                 teamDetails = new List<Team>();
             }
 
@@ -353,9 +369,9 @@ namespace Microsoft.Teams.Apps.Celebration
         /// </summary>
         /// <param name="date">The date<see cref="DateTime"/>.</param>
         /// <returns>The <see cref="Task{ActionResult}"/>.</returns>
-        [Route("GetByDate")]
+        [Route("GetHolidaysByDate")]
         [HttpGet]
-        public async Task<ActionResult> GetByDate(DateTime date)
+        public async Task<ActionResult> GetHolidaysByDate(DateTime date)
         {
             List<CelebrationEvent> holidays = new List<CelebrationEvent>();
             List<string> holidaysNames = new List<string>();
@@ -375,18 +391,32 @@ namespace Microsoft.Teams.Apps.Celebration
                 users.Add(user.DisplayName);
             }
 
-            JsonConvert.SerializeObject(holidays);
-            //return Json(
-            //    JsonConvert.SerializeObject(new[]
-            //    {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users),
-            //    }), JsonRequestBehavior.AllowGet);
-            JsonConvert.SerializeObject(holidays);
-            JsonConvert.SerializeObject(users);
+            return Json(holidays, JsonRequestBehavior.AllowGet);
+        }
 
-            return Json(
-                new[] { JsonConvert.SerializeObject(holidays),
-                    JsonConvert.SerializeObject(users),
-            }, JsonRequestBehavior.AllowGet);
+        [Route("GetUsersByDate")]
+        [HttpGet]
+        public async Task<ActionResult> GetUsersByDate(DateTime date)
+        {
+            List<CelebrationEvent> holidays = new List<CelebrationEvent>();
+            List<string> holidaysNames = new List<string>();
+
+            List<string> users = new List<string>();
+            var document = await this.eventDataProvider.GetEventByDate(date);
+            foreach (var doc in document)
+            {
+                holidays.Add(doc);
+                holidaysNames.Add(doc.Title);
+            }
+
+            var userIds = await this.eventDataProvider.GetUsersByHolidays(holidaysNames);
+            foreach (var userId in userIds)
+            {
+                var user = await this.userManagementHelper.GetUserByAadObjectIdAsync(userId);
+                users.Add(user.DisplayName);
+            }
+
+            return Json(users, JsonRequestBehavior.AllowGet);
         }
     }
 }
