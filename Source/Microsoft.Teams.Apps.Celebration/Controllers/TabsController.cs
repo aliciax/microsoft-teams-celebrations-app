@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 
+using Newtonsoft.Json;
+
 namespace Microsoft.Teams.Apps.Celebration
 {
     using System;
@@ -347,7 +349,9 @@ namespace Microsoft.Teams.Apps.Celebration
                 users.Add(user);
             }
 
-            return Json(holidays, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(new[]
+                {JsonConvert.SerializeObject(holidays), JsonConvert.SerializeObject(users)}));
+
         }
     }
 }
